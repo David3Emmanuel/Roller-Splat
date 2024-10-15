@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetupNewLevel();
+        BackgroundMusic.instance.PlayMusic();
     }
 
     void SetupNewLevel()
@@ -17,19 +18,16 @@ public class GameManager : MonoBehaviour
         allGroundPieces = FindObjectsOfType<GroundPiece>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void Awake()
     {
-        if (instance == null) instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else
         {
             Destroy(gameObject);
-            DontDestroyOnLoad(gameObject);
         }
     }
 
