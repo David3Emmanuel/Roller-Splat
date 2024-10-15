@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
 
         if (isFinished)
         {
+            FindObjectOfType<PlayerController>().Win();
             StartCoroutine(AnimateCamera());
         }
     }

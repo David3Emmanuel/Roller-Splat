@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private Swipe swipe;
     private Material material;
     private AudioSource audioSource;
+    public ParticleSystem winParticles;
 
     public float speed = 15.0f;
     public float minCollisionDistance = 2.5f;
@@ -89,5 +90,10 @@ public class PlayerController : MonoBehaviour
                 groundPiece.ChangeColor(solveColor);
             }
         }
+    }
+
+    public void Win()
+    {
+        winParticles.Play();
     }
 }
