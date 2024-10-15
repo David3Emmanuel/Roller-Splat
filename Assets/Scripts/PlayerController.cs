@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Swipe swipe;
     private Material material;
+    private AudioSource audioSource;
+
     public float speed = 15.0f;
     public float minCollisionDistance = 2.5f;
 
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         swipe = GetComponent<Swipe>();
+        audioSource = GetComponent<AudioSource>();
         solveColor = Random.ColorHSV(0.5f, 1);
         material = GetComponent<MeshRenderer>().material;
         material.color = solveColor;
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour
             if (Vector3.Distance(transform.position, nextCollisionPosition) < minCollisionDistance)
             {
                 isMoving = false;
+                audioSource.Stop();
                 direction = Vector3.zero;
                 nextCollisionPosition = Vector3.zero;
             }
@@ -72,6 +76,7 @@ public class PlayerController : MonoBehaviour
             nextCollisionPosition = hit.point;
         }
         isMoving = true;
+        audioSource.Play();
     }
 
     void OnTriggerEnter(Collider other)
