@@ -6,6 +6,7 @@ public class BackgroundMusic : MonoBehaviour
 {
     public static BackgroundMusic instance;
     private AudioSource audioSource;
+    public bool shouldReload;
 
     void Start()
     {
@@ -14,6 +15,11 @@ public class BackgroundMusic : MonoBehaviour
 
     void Awake()
     {
+        if (shouldReload)
+        {
+            if (instance) Destroy(instance.gameObject);
+            instance = null;
+        }
         if (instance == null)
         {
             instance = this;
