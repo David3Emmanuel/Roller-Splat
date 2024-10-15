@@ -7,10 +7,31 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     private GroundPiece[] allGroundPieces;
+    private bool isAnimating = false;
+
+    public float cameraSpeed = 7.5f;
+    public float animationTime = 1.5f;
+    private float initialCameraZoom = 52.9f;
+    private float finalCameraZoom = 10.0f;
+
     void Start()
     {
         SetupNewLevel();
         BackgroundMusic.instance.PlayMusic();
+        Camera.main.orthographicSize = initialCameraZoom;
+    }
+
+    void Update()
+    {
+        if (isAnimating)
+        {
+            Camera.main.orthographicSize -= cameraSpeed * Time.deltaTime;
+            if (Camera.main.orthographicSize <= finalCameraZoom)
+            {
+                isAnimating = false;
+                Camera.main.orthographicSize = finalCameraZoom;
+            }
+        }
     }
 
     void SetupNewLevel()
@@ -55,9 +76,19 @@ public class GameManager : MonoBehaviour
 
         if (isFinished)
         {
-            Debug.Log("Level Complete");
-            NextLevel();
+            StartCoroutine(AnimateCamera());
         }
+    }
+
+    IEnumerator AnimateCamera()
+    {
+        // Animation logic here
+        isAnimating = true;
+
+        // Call the next level callback after the animation is done
+        yield return new WaitForSeconds(animationTime);
+        isAnimating = false;
+        NextLevel();
     }
 
     public void NextLevel()
@@ -71,5 +102,6 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+        Camera.main.orthographicSize = initialCameraZoom;
     }
 }
