@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void NextLevel()
+    public void NextLevel()
     {
         int currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
         if (currentBuildIndex + 1 < SceneManager.sceneCountInBuildSettings)
